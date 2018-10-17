@@ -23,6 +23,7 @@ public class ScriptableObjectParent_Editor : Editor {
 
 
 		for (int i = 0; i < data.subAssets.Count; i++) {
+			EditorGUI.indentLevel=data.indent[i];
 			GUILayout.BeginVertical(EditorStyles.helpBox);
 			GUILayout.BeginVertical(EditorStyles.helpBox);
 			GUILayout.BeginHorizontal();
@@ -32,12 +33,12 @@ public class ScriptableObjectParent_Editor : Editor {
 				Copy(data.subAssets[i]);
 			GUILayout.EndHorizontal();
 			GUILayout.EndVertical();
-			if (data.IsHiding(i) == false) { 
+			if (data.IsHiding(i) == false) {
 				//data.effects[i].OnInspectorGUI();
 				Editor editor = Editor.CreateEditor(data.subAssets[i]);
 				editor.DrawDefaultInspector();
 			}
-			
+
 
 			GUILayout.BeginHorizontal();
 			if (GUILayout.Button("Duplicate"))
@@ -51,7 +52,10 @@ public class ScriptableObjectParent_Editor : Editor {
 			GUILayout.EndHorizontal();
 
 			GUILayout.EndVertical();
+			
 		}
+		EditorGUI.indentLevel = 0;
+
 		GUILayout.EndVertical();
 		if (GUILayout.Button("Create SubAsset"))
 			DoCreateScriptableObject(data);
@@ -143,8 +147,14 @@ public class ScriptableObjectParent_Editor : Editor {
 		var h = data.hide[switchWith];
 		data.subAssets[switchWith] = data.subAssets[position];
 		data.hide[switchWith] = data.hide[position];
+
 		data.subAssets[position] = other;
 		data.hide[position] = h;
+
+		data.indent[switchWith] = data.GetIndent(data.subAssets[switchWith]);
+		data.indent[position] = data.GetIndent(data.subAssets[position]);
+
+
 	}
 
 	/// <summary>
@@ -220,20 +230,23 @@ public class ScriptableObjectParent_Editor : Editor {
 		}
 	}
 
-	private static void AddChild(ScriptableObjectParent data, ScriptableObject newChild) {
-		string path = GetAssetPath();
+	protected static void AddChild(ScriptableObjectParent data, ScriptableObject newChild) {
+		//string path = GetAssetPath();
 		//string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/New " + newChild.GetType().ToString() + ".asset");
 		newChild.name = newChild.GetType().ToString();
 
 		AssetDatabase.AddObjectToAsset(newChild, data);
 		data.subAssets.Add(newChild);
 		data.hide.Add(false);
+		data.indent.Add(data.GetIndent(newChild));
 		data.hideFlags = HideFlags.None;
 		newChild.hideFlags = HideFlags.None;
 		Undo.RecordObject(newChild, "AddSubAsset");
 		Undo.RecordObject(data, "AddSubAsset");
 		AssetDatabase.SaveAssets();
 	}
+	
+
 }
 #endif
 public class ScriptableObjectParent : ScriptableObject  {
@@ -241,6 +254,8 @@ public class ScriptableObjectParent : ScriptableObject  {
 	public List<ScriptableObject> subAssets;
 	[HideInInspector]
 	public List<bool> hide;
+	[HideInInspector]
+	public List<int> indent;
 	public static List<ScriptableObject> copyStack;
 	public bool IsHiding(int i) {
 		if (i >= hide.Count)
@@ -257,5 +272,8 @@ public class ScriptableObjectParent : ScriptableObject  {
 	}
 	public virtual string SubFolder() {
 		return "";
+	}
+	public virtual int GetIndent(ScriptableObject newChild) {
+		return 0;
 	}
 }
