@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfc4771d87a0a845b2d0773dda3d8b2, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  subAssets:
+  - {fileID: 114841216108292152}
+  - {fileID: 114011099148828150}
+  - {fileID: 114351285987339998}
+  hide: 000000
+  indent: 00000000010000000200000002000000000000000100000001000000
+--- !u!114 &114011099148828150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d49a9245d5b03d4f82f5265e652c894, type: 3}
+  m_Name: Example_EffectData
+  m_EditorClassIdentifier: 
+--- !u!114 &114351285987339998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60d789a2a6cead04a8c46c3981477bde, type: 3}
+  m_Name: Stack_Controller
+  m_EditorClassIdentifier: 
+  condition: 0
+--- !u!114 &114841216108292152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60d789a2a6cead04a8c46c3981477bde, type: 3}
+  m_Name: Stack_Controller
+  m_EditorClassIdentifier: 
+  condition: 0
