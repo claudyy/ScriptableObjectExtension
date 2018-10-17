@@ -23,16 +23,28 @@ public class ScriptableObjectParent_Editor : Editor {
 
 
 		for (int i = 0; i < data.subAssets.Count; i++) {
+			var warning = data.warnings[i];
+			GUI.backgroundColor = warning? Color.red: Color.gray;
 			EditorGUI.indentLevel=data.indent[i];
+			EditorGUILayout.BeginHorizontal();
+			GUILayout.Space(EditorGUI.indentLevel * 10);
 			GUILayout.BeginVertical(EditorStyles.helpBox);
+			GUI.backgroundColor = Color.magenta;
 			GUILayout.BeginVertical(EditorStyles.helpBox);
 			GUILayout.BeginHorizontal();
 			if (GUILayout.Button(data.subAssets[i].name))
-				data.hide[i] = !data.hide[i];
+				data.hides[i] = !data.hides[i];
 			if (GUILayout.Button("Copy"))
 				Copy(data.subAssets[i]);
 			GUILayout.EndHorizontal();
 			GUILayout.EndVertical();
+			if (warning) {
+				GUILayout.BeginVertical(EditorStyles.helpBox);
+				GUILayout.Label(data.warningMessages[i]);
+				GUILayout.EndVertical();
+			}
+
+			GUI.backgroundColor = Color.gray;
 			if (data.IsHiding(i) == false) {
 				//data.effects[i].OnInspectorGUI();
 				Editor editor = Editor.CreateEditor(data.subAssets[i]);
@@ -52,8 +64,12 @@ public class ScriptableObjectParent_Editor : Editor {
 			GUILayout.EndHorizontal();
 
 			GUILayout.EndVertical();
-			
+
+			EditorGUILayout.EndHorizontal();
+
 		}
+		GUI.backgroundColor = Color.white;
+
 		EditorGUI.indentLevel = 0;
 
 		GUILayout.EndVertical();
@@ -77,12 +93,12 @@ public class ScriptableObjectParent_Editor : Editor {
 
 	private void HideAll(ScriptableObjectParent data) {
 		for (int i = 0; i < data.subAssets.Count; i++) {
-			data.hide[i] = true;
+			data.hides[i] = true;
 		}
 	}
 	private void ShowAll(ScriptableObjectParent data) {
 		for (int i = 0; i < data.subAssets.Count; i++) {
-			data.hide[i] = false;
+			data.hides[i] = false;
 		}
 	}
 	private void CopyStack(ScriptableObjectParent data) {
@@ -120,10 +136,11 @@ public class ScriptableObjectParent_Editor : Editor {
 		var sub = data.subAssets[i];
 
 		data.subAssets.RemoveAt(i);
-		data.hide.RemoveAt(i);
+		data.hides.RemoveAt(i);
 		DestroyImmediate(sub, true);
 		Undo.RecordObject(data, "DeletAsset");
 		AssetDatabase.SaveAssets();
+		ChangedData(data);
 	}
 	private void DeleteAll(ScriptableObjectParent data) {
 		for (int i = data.subAssets.Count - 1; i >= 0 ; i--) {
@@ -142,19 +159,16 @@ public class ScriptableObjectParent_Editor : Editor {
 		Switch(data, i,i+1);
 	}
 
-	private static void Switch(ScriptableObjectParent data, int position,int switchWith) {
+	private void Switch(ScriptableObjectParent data, int position,int switchWith) {
 		var other = data.subAssets[switchWith];
-		var h = data.hide[switchWith];
+		var h = data.hides[switchWith];
 		data.subAssets[switchWith] = data.subAssets[position];
-		data.hide[switchWith] = data.hide[position];
+		data.hides[switchWith] = data.hides[position];
 
 		data.subAssets[position] = other;
-		data.hide[position] = h;
+		data.hides[position] = h;
 
-		data.indent[switchWith] = data.GetIndent(data.subAssets[switchWith]);
-		data.indent[position] = data.GetIndent(data.subAssets[position]);
-
-
+		ChangedData(data);
 	}
 
 	/// <summary>
@@ -230,37 +244,53 @@ public class ScriptableObjectParent_Editor : Editor {
 		}
 	}
 
-	protected static void AddChild(ScriptableObjectParent data, ScriptableObject newChild) {
+	protected void AddChild(ScriptableObjectParent data, ScriptableObject newChild) {
 		//string path = GetAssetPath();
 		//string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/New " + newChild.GetType().ToString() + ".asset");
 		newChild.name = newChild.GetType().ToString();
 
 		AssetDatabase.AddObjectToAsset(newChild, data);
 		data.subAssets.Add(newChild);
-		data.hide.Add(false);
+		data.hides.Add(false);
 		data.indent.Add(data.GetIndent(newChild));
+		data.warnings.Add(data.GetWarning(newChild));
+		data.warningMessages.Add(data.GetWarningMessage(newChild));
+
 		data.hideFlags = HideFlags.None;
 		newChild.hideFlags = HideFlags.None;
 		Undo.RecordObject(newChild, "AddSubAsset");
 		Undo.RecordObject(data, "AddSubAsset");
 		AssetDatabase.SaveAssets();
-	}
-	
+		ChangedData(data);
 
+
+	}
+
+	void ChangedData(ScriptableObjectParent data) {
+		for (int i = 0; i < data.subAssets.Count; i++) {
+			data.indent[i] = data.GetIndent(data.subAssets[i]);
+			data.warnings[i] = data.GetWarning(data.subAssets[i]);
+			data.warningMessages[i] = data.GetWarningMessage(data.subAssets[i]);
+		}
+	}
 }
 #endif
 public class ScriptableObjectParent : ScriptableObject  {
 	[HideInInspector]
 	public List<ScriptableObject> subAssets;
 	[HideInInspector]
-	public List<bool> hide;
+	public List<bool> hides;
+	[HideInInspector]
+	public List<bool> warnings;
+	//[HideInInspector]
+	public List<string> warningMessages;
 	[HideInInspector]
 	public List<int> indent;
 	public static List<ScriptableObject> copyStack;
 	public bool IsHiding(int i) {
-		if (i >= hide.Count)
-			hide = new List<bool>(subAssets.Count);
-		return hide[i];
+		if (i >= hides.Count)
+			hides = new List<bool>(subAssets.Count);
+		return hides[i];
 	}
 	public List<T> GetAssets<T>() where T : ScriptableObject {
 		var list = new List<T>();
@@ -273,7 +303,20 @@ public class ScriptableObjectParent : ScriptableObject  {
 	public virtual string SubFolder() {
 		return "";
 	}
-	public virtual int GetIndent(ScriptableObject newChild) {
+	public virtual int GetIndent(ScriptableObject subAsset) {
 		return 0;
+	}
+	public virtual bool GetWarning(ScriptableObject subAsset) {
+		return false;
+	}
+	public virtual string GetWarningMessage(ScriptableObject subAsset) {
+		return "";
+	}
+	protected virtual void OnValidate() {
+		for (int i = 0; i < subAssets.Count; i++) {
+			indent[i] = GetIndent(subAssets[i]);
+			warnings[i] = GetWarning(subAssets[i]);
+			warningMessages[i] = GetWarningMessage(subAssets[i]);
+		}
 	}
 }

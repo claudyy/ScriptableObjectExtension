@@ -66,8 +66,6 @@ public class ScriptableObject_ConditionStack : ScriptableObjectParent {
 	StackHelper_Controller CreateHelper(List<StackElement> aList) {
 		if (aList[0] is Stack_Controller == false)
 			return null;
-		if (aList.Count <= 1)
-			return null;
 		var controller = new StackHelper_Controller(aList[0] as Stack_Controller);
 		
 
@@ -123,20 +121,134 @@ public class ScriptableObject_ConditionStack : ScriptableObjectParent {
 
 		return list;
 	}
-	public override int GetIndent(ScriptableObject newChild) {
-		var assets = GetAssets<StackElement>();
-		var indent = 0;
-		for (int i = 0; i < assets.Count; i++) {
-			var a = assets[i];
-			if (a is Stack_Effect && a == newChild)
-				return indent;
-			if (a is Stack_Controller) {
-				if (a == newChild)
-					return indent;
-				indent++;
-			}
+    int GetIndentFromHelper(StackHelper_Controller helper,ScriptableObject newChild,int indent) {
+        var temp =-1;
+        if (helper.myOperator == newChild)
+            return indent;
+        if (newChild is Stack_Condition && helper.listCondition.Contains(newChild as Stack_Condition))
+            return indent + 1;
+        if (newChild is Stack_Effect && helper.listEffects.Contains(newChild as Stack_Effect))
+            return indent + 1;
 
-		}
-		return base.GetIndent(newChild);
+
+        if (helper.neighbour != null) {
+            temp = GetIndentFromHelper(helper.neighbour,newChild,indent);
+            indent = temp != -1 ? temp : indent;
+        }
+        if (helper.child != null) {
+            temp = GetIndentFromHelper(helper.child, newChild, indent + 1);
+            indent = temp != -1 ? temp : indent;
+        }
+        return indent;
+    }
+	public override int GetIndent(ScriptableObject newChild) {
+
+        var assets = GetAssets<StackElement>();
+        var indent = 0;
+        StackHelper_Controller helper = null;
+        for (int i = 0; i < assets.Count; i++) {
+            var a = assets[i];
+            if (a is Stack_Effect && a == newChild)
+                return indent;
+            if (a is Stack_Controller) {
+                helper = CreateHelper(assets.GetRange(i, assets.Count));
+                break;
+            }
+            if (a is Stack_Condition) {
+                Debug.LogError(name + " : Hier shouldn't be a condition");
+            }
+        }
+        return GetIndentFromHelper(helper, newChild, indent);
 	}
+    //return 1 when subAsset has a warning
+    int GetWarningFromHelper(StackHelper_Controller helper, ScriptableObject subAsset) {
+        int temp = -1;
+        if (subAsset is Stack_Controller  && helper.myOperator == subAsset) {
+            if ((subAsset as Stack_Controller).condition == StackControllerType.If && helper.listCondition.Count == 0)
+                return 1;
+            if ((subAsset as Stack_Controller).condition == StackControllerType.Else && helper.listCondition.Count != 0)
+                return 1;
+            if (helper.listEffects.Count != 0)
+                return 0;
+            return 0;
+        }
+        if (subAsset is Stack_Condition && helper.listCondition.Contains(subAsset as Stack_Condition))
+            return 0;
+        if (subAsset is Stack_Effect && helper.listEffects.Contains(subAsset as Stack_Effect))
+            return 0;
+
+        if (helper.neighbour != null) {
+            temp = GetWarningFromHelper(helper.neighbour, subAsset);
+            if (temp != -1)
+                return temp;
+        }
+        if (helper.child != null) {
+            temp = GetWarningFromHelper(helper.child, subAsset);
+            if (temp != -1)
+                return temp;
+        }
+
+        return -1;
+    }
+    public override bool GetWarning(ScriptableObject subAsset) {
+        var assets = GetAssets<StackElement>();
+        StackHelper_Controller helper = null;
+        for (int i = 0; i < assets.Count; i++) {
+            var a = assets[i];
+            if (a is Stack_Controller) {
+                helper = CreateHelper(assets.GetRange(i, assets.Count));
+                break;
+            }
+            if (a is Stack_Condition) {
+                Debug.LogError(name + " : Hier shouldn't be a condition");
+            }
+        }
+        if (GetWarningFromHelper(helper, subAsset) == 1)
+            return true;
+        return false;
+    }
+    string GetWarningMessageFromHelper(StackHelper_Controller helper, ScriptableObject subAsset) {
+        string temp = "-1";
+        if (subAsset is Stack_Controller && helper.myOperator == subAsset) {
+            if ((subAsset as Stack_Controller).condition == StackControllerType.If && helper.listCondition.Count == 0)
+                return "When the controller is an if controller, the controller needs conditions below it";
+            if ((subAsset as Stack_Controller).condition == StackControllerType.Else && helper.listCondition.Count != 0)
+                return "When the controller is an else controller, the controller can't have conditions below it";
+            if (helper.listEffects.Count != 0)
+                return "";
+            return "";
+        }
+        if (subAsset is Stack_Condition && helper.listCondition.Contains(subAsset as Stack_Condition))
+            return "";
+        if (subAsset is Stack_Effect && helper.listEffects.Contains(subAsset as Stack_Effect))
+            return "";
+
+        if (helper.neighbour != null) {
+            temp = GetWarningMessageFromHelper(helper.neighbour, subAsset);
+            if (temp != "-1")
+                return temp;
+        }
+        if (helper.child != null) {
+            temp = GetWarningMessageFromHelper(helper.child, subAsset);
+            if (temp != "-1")
+                return temp;
+        }
+
+        return "-1";
+    }
+    public override string GetWarningMessage(ScriptableObject subAsset) {
+        var assets = GetAssets<StackElement>();
+        StackHelper_Controller helper = null;
+        for (int i = 0; i < assets.Count; i++) {
+            var a = assets[i];
+            if (a is Stack_Controller) {
+                helper = CreateHelper(assets.GetRange(i, assets.Count));
+                break;
+            }
+            if (a is Stack_Condition) {
+                Debug.LogError(name + " : Hier shouldn't be a condition");
+            }
+        }
+        return GetWarningMessageFromHelper(helper, subAsset);
+    }
 }

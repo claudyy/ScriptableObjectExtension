@@ -12,12 +12,62 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   subAssets:
-  - {fileID: 114841216108292152}
-  - {fileID: 114011099148828150}
-  - {fileID: 114351285987339998}
-  hide: 000000
-  indent: 00000000010000000200000002000000000000000100000001000000
---- !u!114 &114011099148828150
+  - {fileID: 114247787170612862}
+  - {fileID: 114809808523670028}
+  - {fileID: 114748704826911400}
+  - {fileID: 114022979351693898}
+  - {fileID: 114556683704558450}
+  hides: 0000000000
+  warnings: 0000000000010000000100000100000100
+  warningMessages:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - When the controller is an if controller, the controller needs conditions below
+    it
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - When the controller is an if controller, the controller needs conditions below
+    it
+  - 
+  - 
+  - When the controller is an if controller, the controller needs conditions below
+    it
+  - 
+  indent: 000000000100000001000000000000000100000001000000020000000200000001000000030000000100000003000000010000000100000002000000020000000000000001000000010000000100000001000000
+--- !u!114 &114022979351693898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60d789a2a6cead04a8c46c3981477bde, type: 3}
+  m_Name: Stack_Controller
+  m_EditorClassIdentifier: 
+  condition: 2
+--- !u!114 &114247787170612862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60d789a2a6cead04a8c46c3981477bde, type: 3}
+  m_Name: Stack_Controller
+  m_EditorClassIdentifier: 
+  condition: 0
+--- !u!114 &114556683704558450
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -28,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d49a9245d5b03d4f82f5265e652c894, type: 3}
   m_Name: Example_EffectData
   m_EditorClassIdentifier: 
---- !u!114 &114351285987339998
+--- !u!114 &114748704826911400
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -36,11 +86,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60d789a2a6cead04a8c46c3981477bde, type: 3}
-  m_Name: Stack_Controller
+  m_Script: {fileID: 11500000, guid: 0d49a9245d5b03d4f82f5265e652c894, type: 3}
+  m_Name: Example_EffectData
   m_EditorClassIdentifier: 
-  condition: 0
---- !u!114 &114841216108292152
+--- !u!114 &114809808523670028
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,7 +97,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60d789a2a6cead04a8c46c3981477bde, type: 3}
-  m_Name: Stack_Controller
+  m_Script: {fileID: 11500000, guid: 1d74dd5c65a35534cb5c66671fc6e53c, type: 3}
+  m_Name: Example_ConditionData
   m_EditorClassIdentifier: 
-  condition: 0
