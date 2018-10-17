@@ -13,3 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   test: 0
   testB: 0
+  sprite: {fileID: 0}

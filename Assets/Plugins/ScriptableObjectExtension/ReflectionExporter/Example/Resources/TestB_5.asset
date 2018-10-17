@@ -9,8 +9,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 426930929ee3c3142b61345bd132d688, type: 3}
-  m_Name: TestB_3
+  m_Name: TestB_5
   m_EditorClassIdentifier: 
   test: 0
-  testB: 0
+  testB: 1
   sprite: {fileID: 0}

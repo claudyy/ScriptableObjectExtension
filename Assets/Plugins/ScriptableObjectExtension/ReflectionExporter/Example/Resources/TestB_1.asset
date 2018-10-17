@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: TestB_1
   m_EditorClassIdentifier: 
   test: 0
-  testB: 0
+  testB: 1
   sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
