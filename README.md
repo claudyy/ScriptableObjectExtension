@@ -5,7 +5,7 @@ With scriptable object Extension it is easier to work with unity's scriptable ob
   SubAsset makes it easier to create child scriptable objects. It gives you an easy way to create childs. And some additionaly functionality. You can sort, delet or copy them.
   You have to inherant from ScriptalbeObjectParent. Now you can add childs in the editor. But you can overidde some function to custom it more to your need.
  
-  Folder()
+  Folder() 
     With this you can define where the pop up window that adds the child start looking at.
     
   GetIndent(ScriptableObject subAsset)
