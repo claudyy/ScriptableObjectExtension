@@ -6,7 +6,7 @@ using System.Text;
 using System.Linq;
 using System.Reflection;
 using System;
-namespace ClaudeFehlen.ReflectionExporter {
+namespace ClaudeFehlen.ScriptableObjectExtension.ReflectionExporter {
     public abstract class BaseReflectionExporter<T> : EditorWindow where T : ScriptableObject {
 
         Vector2 scrollPos;
@@ -75,7 +75,11 @@ namespace ClaudeFehlen.ReflectionExporter {
                 T data = ScriptableObject.CreateInstance(type) as T;
 
                 SetData(data, cells, propertyNames);
-                AssetDatabase.CreateAsset(data, targetFolder() + data.name + ".asset");
+                if(AssetDatabase.IsValidFolder(targetFolder())) {
+                    AssetDatabase.CreateAsset(data, targetFolder() + data.name + ".asset");
+                } else {
+                    Debug.LogWarning("target folder : " + targetFolder() + "   doesnt exist");
+                }
             }
         }
 
@@ -104,8 +108,6 @@ namespace ClaudeFehlen.ReflectionExporter {
         }
 
         void SetData(T data,string[] values, string[] propertyNames) {
-            const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
-            FieldInfo[] fields = data.GetType().GetFields(flags);
             for (int i = 0; i < propertyNames.Length; i++) {
                 if(propertyNames[i] =="Type" || propertyNames[i] == "Name") {
                     if (propertyNames[i] == "Name")
