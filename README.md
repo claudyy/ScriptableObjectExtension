@@ -7,10 +7,13 @@ With scriptable object Extension it is easier to work with unity's scriptable ob
  
   Folder()
     With this you can define where the pop up window that adds the child start looking at.
+    
   GetIndent(ScriptableObject subAsset)
-    If you want you sub Assets to have an indent in the editor you can return here an indent number. by default it is zero
+    If you want you sub Assets to have an indent in the editor you can return here an indent number. by default it is zero.
+    
   GetWarning(ScriptableObject subAsset)
-    you can color the sub Asset red if something is wrong with it. Return true to color it red
+    you can color the sub Asset red if something is wrong with it. Return true to color it red.
+    
   GetWarningMessage(ScriptableObject subAsset)
     If GetWarning returns true you can also implement a message that should be shown
   
