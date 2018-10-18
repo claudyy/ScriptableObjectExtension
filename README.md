@@ -27,8 +27,8 @@ With scriptable object Extension it is easier to work with unity's scriptable ob
   With the exporter you can export scriptableObjects and you have full control of what values get exported.
   
   Credit:
-  This exporter is inspired by work from Martin Nerurkar
-  You can find some intersting scripting ideas on the blog of his company:
+  This exporter is heavly inspired by work from Martin Nerurkar.
+  You can find some intersting scripting concepts on the blog of his company:
   http://www.sharkbombs.com/blog/
 
 # Reflaction Exporter
