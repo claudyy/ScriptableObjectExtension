@@ -7,7 +7,7 @@ using System.IO;
 namespace ClaudeFehlen.ScriptableObjectExtension.SubAsset {
     public class ScriptableObjectParent : ScriptableObject {
         [HideInInspector]
-        internal List<ScriptableObject> subAssets;
+        public List<ScriptableObject> subAssets;
         [HideInInspector]
         internal List<bool> hides;
         [HideInInspector]
