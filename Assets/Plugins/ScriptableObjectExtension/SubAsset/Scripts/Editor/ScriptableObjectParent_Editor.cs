@@ -85,8 +85,11 @@ namespace ClaudeFehlen.ScriptableObjectExtension.SubAsset {
             GUILayout.Space(12);
             if (GUILayout.Button("Copy stack"))
                 CopyStack(data);
+            if(ScriptableObjectParent.copyStack == null || ScriptableObjectParent.copyStack.Count < 1)
+                GUI.backgroundColor = Color.gray;
             if (GUILayout.Button(ScriptableObjectParent.copyStack != null ? "Past Stack (" + ScriptableObjectParent.copyStack.Count + ")" : "need to copy somthing first"))
                 PastStack(data);
+            GUI.backgroundColor = Color.white;
             GUILayout.Space(12);
             if (GUILayout.Button("Delet stack"))
                 DeleteAll(data);
