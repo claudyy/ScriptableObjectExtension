@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 123cafa90cfaccd448fb3cd3b0cea098, type: 3}
   m_Name: New Example Data
   m_EditorClassIdentifier: 
+  subAssets: []
 --- !u!114 &114102182173316400
 MonoBehaviour:
   m_ObjectHideFlags: 0
