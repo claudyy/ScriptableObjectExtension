@@ -6,19 +6,19 @@ With scriptable object Extension it is easier to work with unity's scriptable ob
   You have to inherant from ScriptalbeObjectParent. Now you can add childs in the editor. But you can overidde some function to custom it more to your need.
  
   Folder() 
-    With this you can define where the pop up window that adds the child start looking at.
+  With this you can define where the pop up window that adds the child start looking at.
     
   GetIndent(ScriptableObject subAsset)
-    If you want you sub Assets to have an indent in the editor you can return here an indent number. by default it is zero.
+  If you want you sub Assets to have an indent in the editor you can return here an indent number. by default it is zero.
     
   GetWarning(ScriptableObject subAsset)
-    you can color the sub Asset red if something is wrong with it. Return true to color it red.
+  you can color the sub Asset red if something is wrong with it. Return true to color it red.
     
   GetWarningMessage(ScriptableObject subAsset)
-    If GetWarning returns true you can also implement a message that should be shown
+  If GetWarning returns true you can also implement a message that should be shown
   
   GetAssets<T>()
-    This function return a list of all sub assets of the type T.
+  This function return a list of all sub assets of the type T.
   
 # ConditionStack
   
