@@ -21,8 +21,10 @@ With scriptable object Extension it is easier to work with unity's scriptable ob
   This function return a list of all sub assets of the type T.
   
 # ConditionStack
-  
+  The Condition stack inherance from ScriptalbeObjectParent, but give addional feature. You can add condition and effects as child assets.  You can call GetEffects on the ConditionStack and get all effects for which the conditions are meet.    
 
 # Exporter
+  With the exporter you can export scriptableObjects and you have full control of what values get exported.
 
 # Reflaction Exporter
+  The reflaction exporter is an easy way to get all your scriptableObjects values into a spreadsheet. But you have no control of the what values get exported. You can open the GenericReflactionExporter to export all ScriptableObject. But if you want to limit what you Export you can inherent from BaseReflectionExporter and limit what he exports. 
