@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using ClaudeFehlen.ScriptableObjectExtension.SubAsset;
 #if UNITY_EDITOR
 using UnityEditor;
+
 [CustomEditor(typeof(ScriptableObject_ConditionStack), true)]
 public class ScriptableObject_ConditionStack_Editor : ScriptableObjectParent_Editor {
 	StackControllerType condition;
