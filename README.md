@@ -25,6 +25,11 @@ With scriptable object Extension it is easier to work with unity's scriptable ob
 
 # Exporter
   With the exporter you can export scriptableObjects and you have full control of what values get exported.
+  
+  Credit:
+  This exporter is inspired by work from Martin Nerurkar
+  You can find some intersting scripting ideas on the blog of his company:
+  http://www.sharkbombs.com/blog/
 
 # Reflaction Exporter
   The reflaction exporter is an easy way to get all your scriptableObjects values into a spreadsheet. But you have no control of the what values get exported. You can open the GenericReflactionExporter to export all ScriptableObject. But if you want to limit what you Export you can inherent from BaseReflectionExporter and limit what he exports. 
