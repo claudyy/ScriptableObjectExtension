@@ -27,7 +27,8 @@ The reflection exporter is an easy way to get all your scriptableObjects values 
 # To do
 ConditionStack:
 Example for ConditionStack to test if all the features are there and functional
-Reflection Exporter 
+
+Reflection Exporter:
 the BaseReflectionExporter should take care of types. He should be able to find all object the type in the project and assign them. Like sprites,ScriptableObject, Mesh and Prefabs.
 
 
